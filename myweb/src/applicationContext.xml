@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">	
+	
+	<!-- 开启注解扫描，SSH中使用@RESOURCE需要在applicationContext.xml中这样配置 -->
+	<context:component-scan base-package="com.mydd"/>
+	<!-- 先配置C3P0连接池，取代hibernate的配置文件hibernate.cfg.xml中配置C3P0连接池的设置 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/webtest01?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="WOxlDWhrwMuvHkG3K9qy"></property>		
+	</bean>
+	
+	<!-- LocalSessionFactoryBean加载配置文件 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<!-- 先配置连接池 -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 加载方言，以及可选项 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		
+		<property name="mappingResources">
+			<list>
+				<value>com/mydd/domain/Student.hbm.xml</value>
+				<value>com/mydd/domain/Teacher.hbm.xml</value>
+				<value>com/mydd/domain/Curriculum.hbm.xml</value>
+				<value>com/mydd/domain/Course.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- 1 编写bean，名字是固定的，加载hibernate.cfg.xml的配置文件  
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+	</bean>
+	-->
+	<!-- 2 先配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!-- 3 开启事务的注解 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!-- ==================================================== -->
+	
+	<!-- 强列推荐方法3： 如果action也有applicationContext 配置，设置如下   -->
+	<!-- Spring配置Action默认是单例的，需要额外配置 scope 的值，配置Action必须是多例的！！！ 如下所示 -->
+
+	<!-- 学生action设置 -->
+	<bean id="studentAction" class="com.mydd.web.action.StudentAction" scope="prototype">
+	<!-- 利用Spring框架管理Action，那么注入必须才用手动方式，在applicationContext.xml文件中配置，如下 -->
+		<property name="studentService" ref="studentService" />
+	</bean>
+	<!--  配置客户模块   -->
+	<bean id="studentService" class="com.mydd.service.StudentServiceImpl">
+    	<property name="studentDao" ref="studentDao" />
+	</bean>
+	<!--  配置客户持久层 -->
+	<bean id="studentDao" class="com.mydd.dao.StudentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 教师action设置 -->
+	<bean id="teacherAction" class="com.mydd.web.action.TeacherAction" scope="prototype">
+	<!-- 利用Spring框架管理Action，那么注入必须才用手动方式，在applicationContext.xml文件中配置，如下 -->
+		<property name="teacherService" ref="teacherService" />
+	</bean>
+	<!--  配置客户模块   -->
+	<bean id="teacherService" class="com.mydd.service.TeacherServiceImpl">
+    	<property name="teacherDao" ref="teacherDao" />
+	</bean>
+	<!--  配置客户持久层 -->
+	<bean id="teacherDao" class="com.mydd.dao.TeacherDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 教师action设置  -->
+	<bean id="curriculumAction" class="com.mydd.web.action.CurriculumAction" scope="prototype"> 
+	<!-- 利用Spring框架管理Action，那么注入必须才用手动方式，在applicationContext.xml文件中配置，如下  -->
+		<property name="curriculumService" ref="curriculumService" />
+	</bean> 
+	<!--  配置客户模块    -->
+	<bean id="curriculumService" class="com.mydd.service.CurriculumServiceImpl">
+    	<property name="curriculumDao" ref="curriculumDao" />
+	</bean>
+	<!--  配置客户持久层    -->
+	<bean id="curriculumDao" class="com.mydd.dao.CurriculumDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+

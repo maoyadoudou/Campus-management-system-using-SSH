@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+	
+<struts>
+	<!--  设置上传文件的大小，默认为2Mb，struts.multipart.maxSize=2097152 本文件中设置为 5Mb-->
+	<constant name="struts.multipart.maxSize" value="10485760"/>
+	<!--  先配置包   -->
+	<package name="crm" extends="struts-default" namespace="/">
+	<!-- 配置登陆状态检验拦截器  -->
+	<interceptors>
+	  <interceptor name="userInterceptor" class="com.mydd.web.interceptor.UserInterceptor"/>
+    </interceptors>
+    <!-- 配置全局结果页面  -->
+	  <global-results>
+	    <result name="login" type="redirect">/login.jsp</result>
+	  </global-results>
+	  <!--  配置客户的Action ，此时的action是由struts2来配置的 ，即struts2框架自己管理Action，如下-->
+	  <!--  <action name="customer_*" class="com.maoyadoudou.web.action.CustomerAction" method="{1}"> -->
+	  <!--  强列推荐方法3： 配置客户的Action ，如果action有Spring来配置的，则只需在applicationContext.xml文件中增加 <bean> 设置，而在struts2的配置
+	  文件中，将class对应的值改为applicationContext.xml中对应action的bean id 值， 如下-->
+  	  <action name="student_*" class="studentAction" method="{1}">
+  		<result name="loginOK" type="redirect">/index.jsp</result>
+  		<result name="passwordEditOK">/welcome.jsp</result>
+  		<result name="updateOK">/jsp/student/personalProfile.jsp</result>
+	  </action>
+	  
+  	  <action name="teacher_*" class="teacherAction" method="{1}">
+  		<result name="loginOK" type="redirect">/index.jsp</result>
+  		<result name="passwordEditOK">/welcome.jsp</result>
+  		<result name="updateOK">/jsp/teacher/personalProfile.jsp</result>
+	  </action>
+	  
+	  <action name="curriculum_*" class="curriculumAction" method="{1}">
+  		<result name="loginOK" type="redirect">/index.jsp</result>
+  		<result name="passwordEditOK" type="redirect">/welcome.jsp</result>
+  		<result name="updateOK" type="redirect">/jsp/teacher/personalProfile.jsp</result>
+ <!--  		<result name="success" type="json"></result>
+  		<result name="fail" type="json"></result>   -->
+  	  </action>
+  	  
+  	  <action name="course_*" class="courseAction" method="{1}">
+  		<result name="loginOK" type="redirect">/index.jsp</result>
+  		<result name="passwordEditOK" type="redirect">/welcome.jsp</result>
+  		<result name="updateOK" type="redirect">/jsp/teacher/personalProfile.jsp</result>
+	  </action>
+	</package>   
+</struts>
+
+
+
+
+
+
+
+
+
+
+
+
+
