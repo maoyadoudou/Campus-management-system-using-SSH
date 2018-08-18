@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+	
+	<class name="com.mydd.domain.Course" table="sch_course">
+		<id name="course_id" column="course_id">
+			<generator class="native"/>
+		</id>
+		
+		<property name="course_score" column="course_score"/>
+		<property name="course_name" column="course_name"/>
+		<property name="course_state" column="course_state"/>
+		<property name="course_teacher" column="course_teacher"/>
+		<property name="course_time" column="course_time"/>
+		<!-- 配置多方 name, column 外键的字段,当前JavaBean中的属性 class 属性的全路径  -->
+		<many-to-one name="curriculum" column="course_curriculum_id" class="com.mydd.domain.Curriculum" cascade="save-update"/>
+		<many-to-one name="student" column="course_student_id" class="com.mydd.domain.Student" cascade="save-update"/>
+	</class>
+	
+</hibernate-mapping>    

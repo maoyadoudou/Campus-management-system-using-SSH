@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+	
+	<class name="com.mydd.domain.Teacher" table="sch_teacher">
+		<id name="teacher_id" column="teacher_id">
+			<generator class="native"/>
+		</id>
+		
+		<property name="teacher_name" column="teacher_name"/>
+		<property name="teacher_number" column="teacher_number"/>
+		<property name="teacher_password" column="teacher_password"/>
+		<property name="teacher_salt" column="teacher_salt"/>
+        <property name="teacher_position" column="teacher_position"/>
+		<property name="teacher_state" column="teacher_state"/>
+		<property name="teacher_birthday" column="teacher_birthday"/>
+		<property name="teacher_sex" column="teacher_sex"/>
+		<property name="teacher_phone" column="teacher_phone"/>
+		<property name="teacher_mail" column="teacher_mail"/>
+		<property name="teacher_avatar" column="teacher_avatar"/>
+		<!-- 配置一方 -->
+		<!--set标签name属性：表示集合的名称 -->		
+		<set name="curriculums" inverse="true">
+			<!-- 需要出现子标签 -->
+			<!-- 外键的字段 -->
+			<key column="curriculum_teacher_id"/>
+			<one-to-many class="com.mydd.domain.Curriculum"/>
+		</set>
+	</class>
+	
+</hibernate-mapping>    

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+	
+	<class name="com.mydd.domain.Curriculum" table="sch_curriculum">
+		<id name="curriculum_id" column="curriculum_id">
+			<generator class="native"/>
+		</id>
+		
+		<property name="curriculum_state" column="curriculum_state"/>
+		<property name="curriculum_name" column="curriculum_name"/>
+		<property name="curriculum_time" column="curriculum_time"/>
+		<property name="curriculum_location" column="curriculum_location"/>
+        <property name="curriculum_max_number" column="curriculum_max_number"/>
+		<property name="curriculum_selected_number" column="curriculum_selected_number"/>
+		<!-- 这里是专门这么命名的，初学，想看看这样命名会不会出错。没出错。 -->
+		<property name="teacher_name" column="teacher_name"/>
+		<property name="teacher_number" column="teacher_number"/>
+		<!-- 配置多方 name, column 外键的字段,当前JavaBean中的属性 class 属性的全路径  -->
+		<many-to-one name="teacher" column="curriculum_teacher_id" class="com.mydd.domain.Teacher" cascade="save-update"/>
+		<!-- 注意name变了，加了s-->
+		<set name="courses" inverse="true">
+			<!-- 需要出现子标签 -->
+			<!-- 外键的字段 -->
+			<key column="course_curriculum_id"/>
+			<one-to-many class="com.mydd.domain.Course"/>
+		</set>
+	</class>
+	
+</hibernate-mapping>    

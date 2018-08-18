@@ -1,0 +1,13 @@
+	<!-- 教师action设置  -->
+	<bean id="coursemAction" class="com.mydd.web.action.CourseAction" scope="prototype"> 
+	<!-- 利用Spring框架管理Action，那么注入必须才用手动方式，在applicationContext.xml文件中配置，如下  -->
+		<property name="courseService" ref="courseService" />
+	</bean> 
+	<!--  配置客户模块    -->
+	<bean id="courseService" class="com.mydd.service.CourseServiceImpl">
+    	<property name="courseDao" ref="courseDao" />
+	</bean>
+	<!--  配置客户持久层    -->
+	<bean id="courseDao" class="com.mydd.dao.CourseDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>

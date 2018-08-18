@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+	
+	<class name="com.mydd.domain.Student" table="sch_student">
+		<id name="student_id" column="student_id">
+			<generator class="native"/>
+		</id>
+		
+		<property name="student_name" column="student_name"/>
+		<property name="student_number" column="student_number"/>
+		<property name="student_password" column="student_password"/>
+		<property name="student_salt" column="student_salt"/>
+        <property name="student_position" column="student_position"/>
+		<property name="student_state" column="student_state"/>
+		<property name="student_birthday" column="student_birthday"/>
+		<property name="student_sex" column="student_sex"/>
+		<property name="student_phone" column="student_phone"/>
+		<property name="student_mail" column="student_mail"/>
+		<property name="student_avatar" column="student_avatar"/>
+		
+		<set name="courses" inverse="true">
+			<!-- 需要出现子标签 -->
+			<!-- 外键的字段 -->
+			<key column="course_student_id"/>
+			<one-to-many class="com.mydd.domain.Course"/>
+		</set>
+
+	</class>
+	
+</hibernate-mapping>    
