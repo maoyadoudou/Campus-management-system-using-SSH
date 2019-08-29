@@ -1,5 +1,5 @@
 # Campus-management-system-using-SSH<br/>
-
+这是我博士毕业后，自学java及js，写的项目，您如果是面试官，请忽略:)
 # 1 编写校园管理系统的目的<br/>
   自学了3个框架后希望能够对框架的知识点，以及Java基础知识点进行回顾，于是决定编写一个项目，当然编写过程中也可以学习练习一下前端知识，包括HTML、CSS、JavaScript（JQuery）、AJAX等。<br/>
 # 2 编写过程中的感想<br/>
